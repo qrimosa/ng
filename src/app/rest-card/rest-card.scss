@@ -1,11 +1,9 @@
-section{
-    display: flex;
-    background-color: rgb(180, 96, 180);
-    border-radius: 15px;
-    margin: 10px;
-    justify-content: space-evenly;
+table{
+    width: 90%;
+    margin-left: 5%;
 }
-div{
-    margin: 20px;
-    padding: 5px;
+
+.headers{
+    text-align: center;
+    vertical-align: middle;
 }
