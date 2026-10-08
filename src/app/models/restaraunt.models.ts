@@ -2,7 +2,7 @@ export type Restaurant = {
   id: number;
   name: string;
   description: string;
-  cuisine: string;
+  cuisine: CuisineType;
   imageUrl: string;
   rating: number;
   deliveryTimeMin: number;
@@ -11,3 +11,5 @@ export type Restaurant = {
   minimumOrderValue: number;
   isActive: boolean;
 };
+
+export type CuisineType = 'Italian' | 'Chinese' | 'Mexican' | 'Indian' | 'American' | 'Japanese' | 'Mediterranean' | 'French' | 'Thai' | 'Spanish';

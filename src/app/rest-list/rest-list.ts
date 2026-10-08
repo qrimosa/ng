@@ -1,6 +1,7 @@
 import { Component, signal, computed } from '@angular/core';
 import { RestCard } from '../rest-card/rest-card';
 import data from '../../../data/restaurants.json';
+import { CuisineType, Restaurant } from '../models/restaraunt.models';
 
 @Component({
   selector: 'app-rest-list',
@@ -11,11 +12,13 @@ import data from '../../../data/restaurants.json';
 })
 export class RestList {
   // 1. Your original data
-  restaurants = signal(data);
+  restaurants = signal<Restaurant[]>(data as Restaurant[]);
 
   // 2. State signals for the search bar and filter dropdown
   searchTerm = signal('');
-  statusFilter = signal('all'); // 'all', 'open', or 'closed'
+  statusFilter = signal('all');
+
+  private searchTimeout: any;
 
   // 3. Computed signal: automatically runs whenever searchTerm, statusFilter, or restaurants change
   filteredRestaurants = computed(() => {
@@ -42,7 +45,11 @@ export class RestList {
   // 4. Methods to update the signals when the user types or clicks
   onSearch(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.searchTerm.set(input.value);
+
+    clearTimeout(this.searchTimeout);
+
+    this.searchTimeout = setTimeout(() => {
+      this.searchTerm.set(input.value);}, 300);
   }
 
   onFilterChange(event: Event) {

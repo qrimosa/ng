@@ -16,7 +16,7 @@ export class RestCard {
     id: 0,
     name: '',
     description: '',
-    cuisine: '',
+    cuisine: 'French',
     imageUrl: '',
     rating: 0,
     deliveryTimeMin: 0,
@@ -27,7 +27,7 @@ export class RestCard {
   });
 
 
-  private form = form(this.restaurant);
+  form = form(this.restaurant);
 
   updateRestaurantData() {
     console.log('Updating restaurant data...', this.restaurant);

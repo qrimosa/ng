@@ -1,9 +1,8 @@
 <td>
   <img 
     [src]="restaurant().imageUrl" 
-    [alt]="restaurant().name" 
     class="img-thumbnail" 
-    style="width: 80px; height: 80px; object-fit: cover;" 
+    style="width: 100px; height: 80px; object-fit: cover;" 
   />
 </td>
 <td class="fw-bold align-middle">
@@ -13,16 +12,19 @@
   {{ restaurant().cuisine }}
 </td>
 <td class="align-middle">
-  {{ restaurant().description }}
+    @if(descInput){
+        {{descInput.value}}
+    }
+    @else { {{restaurant().description }} }
 </td>
 <td class="align-middle">
-  ⭐ {{ restaurant().rating }}
+  {{ restaurant().rating }}/6
 </td>
 <td class="align-middle">
   {{ restaurant().deliveryTimeMin }} - {{ restaurant().deliveryTimeMax }} min
 </td>
 <td class="align-middle">
-  {{ restaurant().deliveryFee }}
+  {{ restaurant().deliveryFee }}$
 </td>
 <td class="align-middle">
   @if (restaurant().isActive) {
