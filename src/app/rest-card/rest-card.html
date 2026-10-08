@@ -1,30 +1,50 @@
-<table class="table table-dark table-striped-columns">
-    <thead>
-        <tr class="headers">
-            <th>Name</th>
-            <th>Description</th>
-            <th>Cuisine</th>
-            <th>Image</th>
-            <th>Rating</th>
-            <th>Delivery time</th>
-            <th>Delivery fee</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (restaraunt of restaraunts(); track restaraunt.name) {
-        <tr>
-            <td>{{restaraunt.name}}</td>
-            <td>{{restaraunt.description}}</td>
-            <td>{{restaraunt.cuisine}}</td>
-            <td><img src="{{restaraunt.image}}" alt="" width="150px"></td>
-            <td>{{restaraunt.rating}}</td>
-            <td>{{restaraunt.deliveryTime}}</td>
-            <td>{{restaraunt.deliveryFee}}</td>
-            <td>@if (restaraunt.openStatus === true) {Otwarte} @else {Zamknięte}</td>
-        </tr>
-        }
-    </tbody>
-</table>
-
-<!-- uzylem AI tylko dla zrozumienia skladni petli for w HTMLu -->
+<td>
+  <img 
+    [src]="restaurant().imageUrl" 
+    [alt]="restaurant().name" 
+    class="img-thumbnail" 
+    style="width: 80px; height: 80px; object-fit: cover;" 
+  />
+</td>
+<td class="fw-bold align-middle">
+  {{ restaurant().name }}
+</td>
+<td class="align-middle">
+  {{ restaurant().cuisine }}
+</td>
+<td class="align-middle">
+  {{ restaurant().description }}
+</td>
+<td class="align-middle">
+  ⭐ {{ restaurant().rating }}
+</td>
+<td class="align-middle">
+  {{ restaurant().deliveryTimeMin }} - {{ restaurant().deliveryTimeMax }} min
+</td>
+<td class="align-middle">
+  {{ restaurant().deliveryFee }}
+</td>
+<td class="align-middle">
+  @if (restaurant().isActive) {
+    <span class="badge bg-success">Otwarte</span>
+  } @else {
+    <span class="badge bg-danger">Zamknięte</span>
+  }
+</td>
+<td class="align-middle">
+  <div class="d-flex gap-2 align-items-center">
+    <input 
+      type="text" 
+      class="form-control form-control-sm"
+      [value]="restaurant().description" 
+      #descInput
+      (change)="onDescriptionChange(descInput.value)" 
+    />
+    <button 
+      class="btn btn-primary btn-sm text-nowrap"
+      [disabled]="!canUpdate()" 
+      (click)="updateRestaurantData()">
+      Update
+    </button>
+  </div>
+</td>

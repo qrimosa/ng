@@ -1,3 +1,53 @@
-<section class="list">
-    <app-rest-card/>
+<section class="container mt-4 list">
+
+   <!-- Search and Filter Bar -->
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-8 mb-3 mb-md-0">
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Search by restaurant name or cuisine..." 
+        [value]="searchTerm()"
+        (input)="onSearch($event)"
+      />
+    </div>
+    <div class="col-md-4">
+      <select 
+        class="form-select" 
+        [value]="statusFilter()" 
+        (change)="onFilterChange($event)">
+        <option value="all">All Restaurants</option>
+        <option value="open">Open Now</option>
+        <option value="closed">Closed</option>
+      </select>
+    </div>
+  </div>
+    
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Image</th>
+          <th>Restaurant Name</th>
+          <th>Cuisine</th>
+          <th>Description</th>
+          <th>Rating</th>
+          <th>Delivery Time</th>
+          <th>Fee</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Track changed to restaurant.id based on your updated model -->
+        @for (restaurant of filteredRestaurants(); track restaurant.id) {
+          <tr app-rest-card [restaurant]="restaurant"></tr>
+        } @empty {
+          <tr>
+            <td colspan="9" class="text-center text-muted py-4">No restaurants available.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </section>
