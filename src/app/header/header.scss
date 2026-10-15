@@ -1,10 +1,25 @@
-p{
-    position: sticky;
-    top: 0;
-    text-align: center;
-}
-div{
+div {
+    background-color: #000;
+    height: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
+}
+
+p {
+    margin: 0; 
+    font-size: 20px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+p:hover{
+    color: #ff0000;
 }

@@ -1,9 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject, input, numberAttribute, ChangeDetectionStrategy } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { Menus } from '../../services/menu'; 
 
 @Component({
-  imports: [],
   selector: 'app-restaurant-menu',
-  styleUrl: './restaurant-menu.scss',
+  standalone: true,
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './restaurant-menu.html',
+  styleUrl: './restaurant-menu.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class RestaurantMenu {}
+export class RestaurantMenu {
+  private readonly menuService = inject(Menus);
+
+  id = input.required({ transform: numberAttribute });
+
+  menuItems = this.menuService.data;
+}

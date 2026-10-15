@@ -18,7 +18,7 @@ export const routes: Routes = [
         component: RestaurantMenu,
     },
     {
-        path: 'restaurant/id/menu/product/:productId',
+        path: 'restaurant/:id/menu/product/:productId',
         component: RestaurantMenuProduct,
     }
 ];
