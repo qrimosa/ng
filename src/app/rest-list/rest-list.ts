@@ -1,59 +1,51 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RestCard } from '../rest-card/rest-card';
-import data from '../../../data/restaurants.json';
-import { CuisineType, Restaurant } from '../models/restaraunt.models';
+import { Restaurants } from '../services/restaurants';
 
 @Component({
   selector: 'app-rest-list',
   standalone: true,
   imports: [RestCard],
   templateUrl: './rest-list.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rest-list.scss',
 })
 export class RestList {
-  // 1. Your original data
-  restaurants = signal<Restaurant[]>(data as Restaurant[]);
+  // Inject the service decorated with @Service()
+  private readonly restaurantService = inject(Restaurants);
 
-  // 2. State signals for the search bar and filter dropdown
+  // State signals for search and status filter
   searchTerm = signal('');
-  statusFilter = signal('all');
+  statusFilter = signal<'all' | 'open' | 'closed'>('all');
 
-  private searchTimeout: any;
-
-  // 3. Computed signal: automatically runs whenever searchTerm, statusFilter, or restaurants change
+  // Automatically recalculates when service data, search term, or status changes
   filteredRestaurants = computed(() => {
-    const term = this.searchTerm().toLowerCase();
+    const term = this.searchTerm().trim().toLowerCase();
     const status = this.statusFilter();
+    const list = this.restaurantService.data();
 
-    return this.restaurants().filter(restaurant => {
-      // Check if name or cuisine matches the search term
-      const matchesSearch = restaurant.name.toLowerCase().includes(term) || 
-                            restaurant.cuisine.toLowerCase().includes(term);
-      
-      // Check if the isActive status matches the dropdown
-      let matchesStatus = true;
-      if (status === 'open') {
-        matchesStatus = restaurant.isActive === true;
-      } else if (status === 'closed') {
-        matchesStatus = restaurant.isActive === false;
-      }
+    return list.filter((restaurant) => {
+      const matchesSearch =
+        !term ||
+        restaurant.name.toLowerCase().includes(term) ||
+        restaurant.cuisine.toLowerCase().includes(term);
+
+      const matchesStatus =
+        status === 'all' ||
+        (status === 'open' && restaurant.isActive) ||
+        (status === 'closed' && !restaurant.isActive);
 
       return matchesSearch && matchesStatus;
     });
   });
 
-  // 4. Methods to update the signals when the user types or clicks
-  onSearch(event: Event) {
+  onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
-
-    clearTimeout(this.searchTimeout);
-
-    this.searchTimeout = setTimeout(() => {
-      this.searchTerm.set(input.value);}, 300);
+    this.searchTerm.set(input.value);
   }
 
-  onFilterChange(event: Event) {
+  onFilterChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
-    this.statusFilter.set(select.value);
+    this.statusFilter.set(select.value as 'all' | 'open' | 'closed');
   }
 }

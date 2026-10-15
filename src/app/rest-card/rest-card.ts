@@ -1,40 +1,37 @@
-import { Component, model, signal } from '@angular/core';
-import { form, FormField } from '@angular/forms/signals';
-import { Restaurant } from '../models/restaraunt.models';
+import { Component, input, signal, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Restaurant } from '../models/restaraunt.models';
+import { Restaurants } from '../services/restaurants';
 
 @Component({
   selector: '[app-rest-card]',
   standalone: true,
-  imports: [FormField, RouterLink],
+  imports: [RouterLink],
   templateUrl: './rest-card.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rest-card.scss',
 })
-export class RestCard {
-  canUpdate = signal(true);
+export class RestCard implements OnInit {
+  private readonly restaurantService = inject(Restaurants);
 
-  restaurant = model<Restaurant>({
-    id: 0,
-    name: '',
-    description: '',
-    cuisine: 'French',
-    imageUrl: '',
-    rating: 0,
-    deliveryTimeMin: 0,
-    deliveryTimeMax: 0,
-    deliveryFee: 0,
-    minimumOrderValue: 0,
-    isActive: false
-  });
+  restaurant = input.required<Restaurant>();
+  updatedDescription = signal('');
 
-
-  form = form(this.restaurant);
-
-  updateRestaurantData() {
-    console.log('Updating restaurant data...', this.restaurant);
+  ngOnInit(): void {
+    this.updatedDescription.set(this.restaurant().description);
   }
 
-  onDescriptionChange(val: string) {
-    console.log('Description value:', val);
+  canUpdate = signal(true);
+
+  onDescriptionChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.updatedDescription.set(input.value);
+  }
+
+  updateRestaurantData(): void {
+    this.restaurantService.updateDescription(
+      this.restaurant().id,
+      this.updatedDescription()
+    );
   }
 }

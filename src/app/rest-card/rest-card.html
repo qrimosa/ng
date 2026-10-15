@@ -1,30 +1,28 @@
 <td>
   <img 
     [src]="restaurant().imageUrl" 
+    [alt]="restaurant().name"
     class="img-thumbnail" 
     style="width: 100px; height: 80px; object-fit: cover;" 
   />
 </td>
 <td class="fw-bold align-middle">
-  <a href="#">{{ restaurant().name }}</a>
+  <a [routerLink]="['/restaurant', restaurant().id]">{{ restaurant().name }}</a>
 </td>
 <td class="align-middle">
   {{ restaurant().cuisine }}
 </td>
 <td class="align-middle">
-    @if(descInput){
-        {{descInput.value}}
-    }
-    @else { {{restaurant().description }} }
+  {{ restaurant().description }}
 </td>
 <td class="align-middle">
-  {{ restaurant().rating }}/6
+  ⭐ {{ restaurant().rating }}/6
 </td>
 <td class="align-middle">
   {{ restaurant().deliveryTimeMin }} - {{ restaurant().deliveryTimeMax }} min
 </td>
 <td class="align-middle">
-  {{ restaurant().deliveryFee }}$
+  ${{ restaurant().deliveryFee }}
 </td>
 <td class="align-middle">
   @if (restaurant().isActive) {
@@ -38,9 +36,8 @@
     <input 
       type="text" 
       class="form-control form-control-sm"
-      [value]="restaurant().description" 
-      #descInput
-      (change)="onDescriptionChange(descInput.value)" 
+      [value]="updatedDescription()" 
+      (input)="onDescriptionChange($event)" 
     />
     <button 
       class="btn btn-primary btn-sm text-nowrap"

@@ -1,1 +1,71 @@
-<p>restaurant ID: {{ id() }}</p>
+<div class="container my-5">
+  <div class="mb-3">
+    <a routerLink="/restaurants" class="btn btn-outline-secondary btn-sm">&larr; Back to List</a>
+  </div>
+
+  @if (restaurant(); as rest) {
+    <div class="card shadow-sm border-0">
+      <div class="row g-0">
+        <div class="col-md-5">
+          <img 
+            [src]="rest.imageUrl" 
+            [alt]="rest.name" 
+            class="img-fluid rounded-start h-100 object-fit-cover"
+            style="min-height: 300px;"
+          />
+        </div>
+        <div class="col-md-7">
+          <div class="card-body d-flex flex-column justify-content-between h-100">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">{{ rest.cuisine }}</span>
+                @if (rest.isActive) {
+                  <span class="badge bg-success">Open Now</span>
+                } @else {
+                  <span class="badge bg-danger">Closed</span>
+                }
+              </div>
+
+              <h1 class="card-title fw-bold mb-2">{{ rest.name }}</h1>
+              <p class="text-muted fs-5 mb-3">{{ rest.description }}</p>
+
+              <div class="row text-center bg-light p-3 rounded mb-4 g-2">
+                <div class="col-4 border-end">
+                  <div class="fw-bold fs-5 text-warning">⭐ {{ rest.rating }} / 6</div>
+                  <small class="text-muted">Rating</small>
+                </div>
+                <div class="col-4 border-end">
+                  <div class="fw-bold fs-5">{{ rest.deliveryTimeMin }}-{{ rest.deliveryTimeMax }} min</div>
+                  <small class="text-muted">Delivery Time</small>
+                </div>
+                <div class="col-4">
+                  <div class="fw-bold fs-5">{{ rest.deliveryFee | currency:'USD' }}</div>
+                  <small class="text-muted">Delivery Fee</small>
+                </div>
+              </div>
+
+              <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Minimum Order Value:</span>
+                  <strong>{{ rest.minimumOrderValue | currency:'USD' }}</strong>
+                </li>
+              </ul>
+            </div>
+
+            <div class="d-flex gap-2">
+              <a [routerLink]="['/restaurant', rest.id, 'menu']" class="btn btn-primary btn-lg w-100">
+                View Menu
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="alert alert-warning text-center my-5" role="alert">
+      <h4>Restaurant Not Found</h4>
+      <p>The requested restaurant with ID #{{ id() }} does not exist.</p>
+      <a routerLink="/restaurants" class="btn btn-primary mt-2">Return to List</a>
+    </div>
+  }
+</div>
