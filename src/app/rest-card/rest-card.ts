@@ -1,11 +1,12 @@
 import { Component, model, signal } from '@angular/core';
-import { form } from '@angular/forms/signals';
+import { form, FormField } from '@angular/forms/signals';
 import { Restaurant } from '../models/restaraunt.models';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: '[app-rest-card]',
   standalone: true,
-  imports: [],
+  imports: [FormField, RouterLink],
   templateUrl: './rest-card.html',
   styleUrl: './rest-card.scss',
 })
