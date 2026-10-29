@@ -11,7 +11,7 @@ import { Restaurants } from '../services/restaurants';
   styleUrl: './rest-list.scss',
 })
 export class RestList {
-  // Inject the service decorated with @Service()
+  // Inject the service (which now handles Local Storage under the hood)
   private readonly restaurantService = inject(Restaurants);
 
   // State signals for search and status filter
@@ -22,6 +22,8 @@ export class RestList {
   filteredRestaurants = computed(() => {
     const term = this.searchTerm().trim().toLowerCase();
     const status = this.statusFilter();
+    
+    // Read the current list of restaurants from the service signal
     const list = this.restaurantService.data();
 
     return list.filter((restaurant) => {

@@ -1,14 +1,23 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" routerLink="/restaurants">FoodApp</a>
-    
-    <div class="navbar-nav ms-auto">
-      <a class="nav-link" routerLink="/restaurants" routerLinkActive="active">
-        Restaurants
-      </a>
-      <a class="btn btn-outline-warning btn-sm ms-2" routerLink="/admin/restaurants" routerLinkActive="active">
-        Admin Panel
-      </a>
+    <a class="navbar-brand" routerLink="/">FoodApp</a>
+    <div class="navbar-nav ms-auto d-flex align-items-center">
+      <a class="nav-link" routerLink="/restaurants" routerLinkActive="active">Restaurants</a>
+      
+      @if (auth.currentUser(); as user) {
+        @if (user.role === 'admin') {
+          <a class="nav-link text-warning ms-2" routerLink="/admin/restaurants" routerLinkActive="active">Admin: Restaurants</a>
+          <a class="nav-link text-warning ms-2" routerLink="/admin/users" routerLinkActive="active">Admin: Users</a>
+        }
+        <div class="nav-item dropdown ms-3">
+          <span class="text-light me-3">Hello, {{ user.name }}</span>
+          <a class="btn btn-sm btn-outline-light me-2" routerLink="/profile">Profile</a>
+          <button class="btn btn-sm btn-danger" (click)="onLogout()">Logout</button>
+        </div>
+      } @else {
+        <a class="btn btn-sm btn-outline-light ms-3 me-2" routerLink="/login">Login</a>
+        <a class="btn btn-sm btn-primary" routerLink="/register">Register</a>
+      }
     </div>
   </div>
 </nav>
