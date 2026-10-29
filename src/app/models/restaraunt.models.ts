@@ -9,6 +9,7 @@ export type Restaurant = {
   deliveryTimeMax: number;
   deliveryFee: number;
   minimumOrderValue: number;
+  address: string;
   isActive: boolean;
 };
 

@@ -29,9 +29,9 @@ export class RestCard implements OnInit {
   }
 
   updateRestaurantData(): void {
-    this.restaurantService.updateDescription(
-      this.restaurant().id,
-      this.updatedDescription()
-    );
+    // FIX: Use the new generic update() method from the Local Storage service
+    this.restaurantService.update(this.restaurant().id, {
+      description: this.updatedDescription()
+    });
   }
 }

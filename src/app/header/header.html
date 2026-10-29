@@ -1,4 +1,14 @@
-<div>
-    <a href="http://localhost:4200/"><p>main page</p></a>
-    <a href="http://localhost:4200/restaurants"><p>list of restaurants</p></a>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/restaurants">FoodApp</a>
+    
+    <div class="navbar-nav ms-auto">
+      <a class="nav-link" routerLink="/restaurants" routerLinkActive="active">
+        Restaurants
+      </a>
+      <a class="btn btn-outline-warning btn-sm ms-2" routerLink="/admin/restaurants" routerLinkActive="active">
+        Admin Panel
+      </a>
+    </div>
+  </div>
+</nav>
